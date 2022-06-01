@@ -1,8 +1,10 @@
 from tester.tester import Tester
 import datetime as dt
 
+SERIAL_PORT = "COM10"
+
 def test_ascending():
-    tester = Tester("COM4")
+    tester = Tester(SERIAL_PORT)
     with tester:
         tester.sendDebugMenuCommand('2')
         output = tester.sendDebugMenuCommand('3').decode()
@@ -13,7 +15,7 @@ def test_ascending():
         assert(times[i] <= times[i + 1])
 
 def test_setTime():
-    tester = Tester("COM4")
+    tester = Tester(SERIAL_PORT)
     with tester:
         output = tester.sendDebugMenuCommand('2')
         assert(output == b'2\r\n 1: Get RTC Time\r\n 2: Set RTC Time\r\n 3: Hex Clock\r\n 4: Set Alarm\r\n>')
@@ -34,7 +36,7 @@ def test_setTime():
         assert(abs((st_time - dt.datetime.now()).total_seconds()) < 5)
 
 def test_setAlarm():
-    tester = Tester("COM4")
+    tester = Tester(SERIAL_PORT)
     with tester:
         # Enter RTC menu
         output = tester.sendDebugMenuCommand('2')
