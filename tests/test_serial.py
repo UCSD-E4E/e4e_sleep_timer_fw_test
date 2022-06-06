@@ -36,5 +36,23 @@ def test_multipleRead():
             assert(random_data == read_data)
             sleep(random.randrange(0, 2.0))
 
+def test_blockRead():
+    tester = Tester(TEST_PORT, debug_port=DEBUG_PORT)
+    random.seed(0)
+    BLOCK_SIZE = 5
+    with tester:
+        assert(tester.sendDebugMenuCommand("1").endswith(b'\r\n>'))
+        assert(tester.sendDebugMenuCommand("E").endswith(b'\r\n>'))
+        random_trials = random.randint(1, 32)
+        random_length = random.randint(1, 32) * BLOCK_SIZE
+        for i in range(random_trials):
+            random_data = random.randbytes(random_length)
+            tester.debugPort.write(random_data)
+            sleep(random_length / ECHO_VELOCITY)
+            read_data = tester.flushUSB()
+            assert(random_data == read_data)
+            sleep(random.randrange(0, 2.0))
+
+
 if __name__ == '__main__':
     test_fastSerial()

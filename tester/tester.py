@@ -33,7 +33,7 @@ class Tester:
             self.__log.info("Closed Debug Port")
 
 
-    def sendDebugMenuCommand(self, cmd: str, prompt: str = ">", timeout: float = 10.0, *, slow: bool = False) -> bytes:
+    def sendDebugMenuCommand(self, cmd: str, prompt: str = ">", timeout: float = 10.0, *, slow: bool = True) -> bytes:
         startTime = dt.datetime.now()
         if not slow:
             self.usbPort.write(cmd.encode())
