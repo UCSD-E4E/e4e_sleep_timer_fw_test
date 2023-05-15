@@ -1,7 +1,7 @@
 from tester.tester import Tester
 import datetime as dt
 
-SERIAL_PORT = "COM10"
+SERIAL_PORT = "COM7"
 
 def test_ascending():
     tester = Tester(SERIAL_PORT)
@@ -9,7 +9,7 @@ def test_ascending():
         tester.sendDebugMenuCommand('2')
         output = tester.sendDebugMenuCommand('3').decode()
     lines = output.splitlines()[1:-2]
-    times = [int(line.split(': ')[1], 16) for line in lines]
+    times = [int(line.split(': ')[1], 16) for line in lines[:-1]]
     assert(len(times) > 100)
     for i in range(len(times) - 1):
         assert(times[i] <= times[i + 1])
